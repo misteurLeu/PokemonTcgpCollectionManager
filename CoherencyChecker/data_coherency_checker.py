@@ -2,7 +2,7 @@ import json
 import numbers
 import os
 
-from parameters import DATA_PATH, RARITY_FILE, COLLECTION_FILE, USERS_DIRECTORY
+from input import DATA_PATH, RARITY_FILE, COLLECTION_PATH, USERS_DIRECTORY
 from .decorators import log_function, require_data, test_dependency
 
 
@@ -19,9 +19,16 @@ class DataChecker:
             raise FileNotFoundError(USERS_DIRECTORY)
         if not os.path.exists(RARITY_FILE):
             raise FileNotFoundError(f"The json file for describing rarity does not exists under {RARITY_FILE} path")
-        if not os.path.exists(COLLECTION_FILE):
-            raise FileNotFoundError(f'The json file for describing collection'
-                                    f' does not exists under {COLLECTION_FILE} path')
+        if not os.path.exists(COLLECTION_PATH):
+            raise FileNotFoundError(f'The directory for describing collections'
+                                    f' does not exists under {COLLECTION_PATH} path')
+        for filename in os.listdir(COLLECTION_PATH):
+            if filename == '.' or filename == '..':
+                continue
+            if not filename.endswith('.json'):
+                raise Exception('all files under {COLLECTION_PATH} must be json files')
+            if not os.path.isfile(os.path.join(COLLECTION_PATH, filename)):
+                raise Exception(f'All files under {COLLECTION_PATH} must be file')
 
     @log_function
     def load_rarity(self):
@@ -34,12 +41,15 @@ class DataChecker:
 
     @log_function
     def load_collections(self):
-        with open(COLLECTION_FILE, 'r') as f:
-            self.collections = json.load(f)
-            if type(self.collections) is not list:
-                raise TypeError(COLLECTION_FILE)
-            if len(self.collections) == 0:
-                raise Exception('No collections data')
+        self.collections = []
+        for filename in os.listdir(COLLECTION_PATH):
+            if filename == '.' or filename == '..':
+                continue
+            with open(os.path.join(COLLECTION_PATH, filename), 'r') as f:
+                new_collection = json.load(f)
+                if type(new_collection) is not dict:
+                    raise TypeError(os.path.join(COLLECTION_PATH, filename))
+                self.collections.append(new_collection)
 
     @log_function
     @require_data('rarity')

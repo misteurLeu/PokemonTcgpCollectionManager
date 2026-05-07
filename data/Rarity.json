@@ -5,9 +5,9 @@
   {"id": 3, "name": "⬪⬪⬪⬪", "desc": "ex"},
   {"id": 4, "name": "★", "desc": "full art"},
   {"id": 5, "name": "★★", "desc": "full art rare"},
-  {"id": 6, "name": "★★★", "desc": "imersives"},
+  {"id": 6, "name": "★★★", "desc": "immersives"},
   {"id": 7, "name": "Shiny", "desc": "shiny"},
-  {"id": 8, "name": "Rare shiny", "desc": "shiny rare"},
+  {"id": 8, "name": "Shiny full art", "desc": "shiny rare"},
   {"id": 9, "name": "♕", "desc": "doré"},
   {"id": 10, "name": "PROMO", "desc": "cartes promo"}
 ]

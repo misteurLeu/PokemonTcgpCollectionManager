@@ -1,5 +1,5 @@
 from functools import wraps
-from parameters import PENDING, RUNNING, DONE, FAILED
+from input import PENDING, RUNNING, DONE, FAILED
 
 
 class FunctionAlreadyTested(ValueError):
